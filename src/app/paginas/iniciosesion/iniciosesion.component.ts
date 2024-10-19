@@ -8,14 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 
-
-
 @Component({
   selector: 'app-iniciosesion',
   templateUrl: './iniciosesion.component.html',
   styleUrls: ['./iniciosesion.component.scss'],
   standalone: true,
-  imports: [IonicModule, HeaderComponent,FooterComponent,
+  imports: [IonicModule, HeaderComponent, FooterComponent,
     FormsModule, CommonModule],
 })
 export class IniciosesionComponent {
@@ -28,7 +26,9 @@ export class IniciosesionComponent {
   private router = inject(Router);
   private alertController = inject(AlertController);
 
-
+  irARegistrar() {
+    this.router.navigate(["/registrar"]);
+  }
 
 
   async iniciarSe(usuario: string, clave: string) {
@@ -39,7 +39,6 @@ export class IniciosesionComponent {
 
       await this.authService.apiData(usuario, clave);
       this.isLoading = false;
-
 
       this.authService.isAuthenticated$.pipe(
         switchMap(isAuthenticated => {
@@ -53,15 +52,21 @@ export class IniciosesionComponent {
         next: (usuarioCompleto) => {
           this.usuario = '';
           this.clave = '';
+          console.log({ usuarioCompleto });
+          if (!usuarioCompleto) return alert("chupa el pico");
 
-          if (usuarioCompleto) {
-
-            if (usuarioCompleto.rol === 'profesor') {
-              this.router.navigate(['/paginaprofesor']);
-            } else {
-              this.router.navigate(['/paginaestudiante']);
-            }
+          if (usuarioCompleto.rol === "docente") {
+            return this.router.navigate(['/paginaprofesor']);
           }
+
+          if (usuarioCompleto.rol === "alumno") {
+            return this.router.navigate(['/paginaestudiante']);
+          }
+
+          return alert("rol no soportado");
+
+
+
         },
         error: async (error) => {
           console.error('Error de autenticación:', error);

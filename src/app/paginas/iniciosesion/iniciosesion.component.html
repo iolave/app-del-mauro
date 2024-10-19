@@ -19,7 +19,7 @@
       <ion-spinner *ngIf="isLoading"></ion-spinner>
     </ion-button>
 
-    <ion-button routerLink="/registrar" class="custom-button">Registrarse</ion-button>
+    <ion-button (click)="irARegistrar()" class="custom-button">Registrarse</ion-button>
 
     <p class="recuperar-password" routerLink="/recuperacion">
       ¿Olvidaste tu contraseña?

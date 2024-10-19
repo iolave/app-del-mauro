@@ -9,6 +9,7 @@ import { HeaderComponent } from 'src/app/compartidos/header/header.component';
 import { FooterComponent } from 'src/app/compartidos/footer/footer.component';
 
 
+
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.component.html',
@@ -17,11 +18,12 @@ import { FooterComponent } from 'src/app/compartidos/footer/footer.component';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,HeaderComponent,FooterComponent, FormsModule],
+    IonicModule,HeaderComponent,FooterComponent, FormsModule,CommonModule],
 
 
 })
-export class RegistrarComponent  implements OnInit {
+export class RegistrarComponent  {
+
   nombreComplet: string = '';
   rut: string = '';
   usuario: string = '';
@@ -39,6 +41,7 @@ export class RegistrarComponent  implements OnInit {
   ) { }
   async registrouser() {
     this.isLoading = true;
+    this.router.navigate(['/registrar'])
 
     try {
 
@@ -72,9 +75,6 @@ export class RegistrarComponent  implements OnInit {
 
     await alert.present();
   }
-  ngOnInit(): void {
-    console.log('RegistrarComponent inicializado');
-}
 }
 
 
